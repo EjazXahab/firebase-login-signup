@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Voting App</title>
+</head>
+<body>
+  <h1>Voting App</h1>
+
+  <div id="candidates">
+    <h2>Candidates</h2>
+    <ul id="candidateList">
+      <!-- Candidates will be added dynamically -->
+    </ul>
+  </div>
+
+  <div id="voting">
+    <h2>Vote</h2>
+    <select id="candidateSelect">
+        <option value="aijaz">aijaz</option>
+        <option value="salman">salman</option>
+        <option value="asad">asad</option>
+        <option value="hamza">hamza</option>
+    </select>
+    <button onclick="submitVote()">Submit Vote</button>
+  </div>
+
+  <div id="result" style="display: none;">
+    <h2>Results</h2>
+    <ul id="resultList"></ul>
+  </div>
+
+  <script>
+    var candidates = []; // Array to store candidate objects
+    var votes = {}; // Object to store vote counts
+
+    // Function to add candidates
+    function addCandidate(name) {
+      var candidate = {
+        name: name,
+        count: 0
+      };
+      candidates.push(candidate);
+      votes[name] = 0;
+
+      var candidateList = document.getElementById("candidateList");
+      var listItem = document.createElement("li");
+      listItem.innerHTML = name;
+      candidateList.appendChild(listItem);
+
+      var candidateSelect = document.getElementById("candidateSelect");
+      var option = document.createElement("option");
+      option.value = name;
+      option.text = name;
+      candidateSelect.appendChild(option);
+    }
+
+    // Function to submit the vote
+    function submitVote() {
+      var selectedOption = document.getElementById("candidateSelect").value;
+      if (selectedOption) {
+        votes[selectedOption]++;
+        showResult();
+      } else {
+        alert("Please select a candidate!");
+      }
+    }
+
+    // Function to show the result
+    function showResult() {
+      var candidatesDiv = document.getElementById("candidates");
+      var votingDiv = document.getElementById("voting");
+      var resultDiv = document.getElementById("result");
+      candidatesDiv.style.display = "none";
+      votingDiv.style.display = "none";
+      resultDiv.style.display = "block";
+
+      var resultList = document.getElementById("resultList");
+      resultList.innerHTML = "";
+      candidates.forEach(function(candidate) {
+        var listItem = document.createElement("li");
+        listItem.innerHTML = candidate.name + ": " + votes[candidate.name];
+        resultList.appendChild(listItem);
+      });
+    }
+  </script>
+</body>
+</html>
